@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ##----------------------------------------------------------------------------------------##
-##		ESCRITOR con GUI v.10
+##		ESCRITOR con GUI v.11 YAD MADNESS
 ##
-## Estado actual: Editando los cuadros de Zenity
+## Estado actual: Pasando todo a YAD
 
 ## Futuros Updates:
-##	- Pasar todo a YAD con paneles multidialogo
+
 ##	- Crear bloques de control de errores
 ##	- Automatizar código de items
 ##
@@ -14,40 +14,26 @@
 
 #Introducción de Título, número, fuente, transcript, minuto inicial y final.
 
-titulo_item=$(zenity --entry \
-						--title="Escritor_GUI - Titulo del item" \
-						--text="Introduce el nombre del item: " \
-						--width=500)
+# Display Yad window with 7 different fields
+fields=$(yad --form \
+  --title="Escritor - ComprensionesOrales" \
+  --text="Please enter the following data:" \
+  --field="Item title:" \
+  --field="Item number" \
+  --field="Source of the video:" \
+  --field="Intitial minute:" \
+  --field="Final minute:" \
+  --field="Transcript starts with..." \
+  --field="Transcript ends with...")
 
-numero_item=$(zenity --entry \
-						--title="Escritor_GUI - Número del item" \
-						--text="Introduce el número del item: " \
-						--width=500)
-
-Source=$(zenity --entry \
-				--title="Escritor_GUI - Source" \
-				--text="Introduce el link al vídeo: " \
-				--width=500)
-
-transcript_inicio=$(zenity --entry \
-							--title="Escritor_GUI - Transcript inicio" \
-							--text="Introduce el inicio del transcript: " \
-							--width=500)
-
-transcript_final=$(zenity --entry \
-							--title="Escritor_GUI - Transcript final" \
-							--text="Introduce el final del transcript: " \
-							--width=500)
-
-minuto_inicial=$(zenity --entry \
-						--title="Escritor_GUI - Minuto inicial" \
-						--text="Introduce el minuto inicial: " \
-						--width=500)
-
-minuto_final=$(zenity --entry \
-						--title="Escritor_GUI - Minuto final" \
-						--text="Introduce el minuto final: " \
-						--width=500)
+# Extract values entered into fields and store them in separate variables
+titulo_item=$(echo $fields | cut -d '|' -f 1)
+numero_item=$(echo $fields | cut -d '|' -f 2)
+Source=$(echo $fields | cut -d '|' -f 3)
+minuto_inicial=$(echo $fields | cut -d '|' -f 4)
+minuto_final=$(echo $fields | cut -d '|' -f 5)
+transcript_inicio=$(echo $fields | cut -d '|' -f 6)
+transcript_final=$(echo $fields | cut -d '|' -f 7)
 
 
 #Creación del documento
